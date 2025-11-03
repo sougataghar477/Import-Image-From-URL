@@ -7,7 +7,7 @@ Lets you import Image Plane and Ref Images from external Image URLS. I made this
 3. ![This is an image](https://github.com/sougataghar477/Import-Image-Plane-From-URL/blob/main/installation.PNG?raw=true)
 4. Please Check Usage down below  
 ## Usage
-1. Look at the right hand of 3D Viewport where UI panels are and look for `Image Plane From URL` panel shown below and click on it
+1. Look at the right hand of 3D Viewport where UI panels are and look for `Image From URL` panel shown below and click on it
 2. ![This is an image](https://github.com/sougataghar477/Import-Image-Plane-From-URL/blob/main/urlImage2.PNG?raw=true)
 3. Copy an image url from somewhere and then paste it in text box
 4. Click on the button below and you are good to go
