@@ -1,10 +1,10 @@
 bl_info = {
-    "name": "Import Image As Plane From URL",
+    "name": "Import Image From URL",
     "author": "Sougata Ghar, Florian Meyer",
-    "version": (1,),
+    "version": (1,1),
     "blender": (3, 0, 1),
     "location": "VIEW3D > UI",
-    "description": "Import Image Plane from a URL",
+    "description": "Import Image from URL",
     "warning": "",
     "wiki_url": "",
     "tracker_url": "",
@@ -25,11 +25,11 @@ addon_utils.enable("io_import_images_as_planes", default_set=True, persistent=Tr
 
 class LayoutDemoPanel(bpy.types.Panel):
     """Creates a Panel in the scene context of the properties editor"""
-    bl_label = "Image Plane From URL"
+    bl_label = "Image Images From URL"
     bl_idname = "SCENE_PT_layout"
     bl_space_type = 'VIEW_3D'
     bl_region_type = 'UI'
-    bl_category = 'Image Plane From URL'
+    bl_category = 'Image Images From URL'
 
     def draw(self, context):
         layout = self.layout
@@ -62,54 +62,63 @@ class MyOperator2(bpy.types.Operator):
 
 
 def generate_image(image_type):
-    print(image_type)
     parentFolder = Path(getcwd())
     tempDir = Path(bpy.app.tempdir)
-    url = bpy.context.scene.string_prop_for_referrence
-    filename = url.split('/')[-1]
-    shortenedName = filename[:5]
-    isImageinFormat = True
-
-    if not (
-        filename.endswith('.jpg')
-        or filename.endswith('.jpeg')
-        or filename.endswith('.png')
-        or filename.endswith('.webp')
-        or filename.endswith('.cms')
-        or filename.endswith('.tiff')
-        or filename.endswith('.bmp')
-        or filename.endswith('.svg')
-
-    ):
-        isImageinFormat = False
-
-    if not isImageinFormat:
-        if 'jpg' in filename:
-            filename = shortenedName + '.jpg'
-        elif 'png' in filename:
-            filename = shortenedName + '.png'
-        elif 'jpeg' in filename:
-            filename = shortenedName + '.jpg'
-        elif 'webp' in filename:
-            filename = shortenedName + '.webp'
-        elif 'cms' in filename:
-            filename = shortenedName + '.cms'
-        elif 'tiff' in filename:
-            filename = shortenedName + '.tiff'
-        elif 'bmp' in filename:
-            filename = shortenedName + '.bmp'
-        elif 'svg' in filename:
-            filename = shortenedName + '.svg' 
-    sub_name = 'images'
-    subfolder = tempDir / sub_name
-    subfolder.mkdir(exist_ok=True)
-
-    filename_path = subfolder / filename
-    urllib.request.urlretrieve(url, filename_path)
-    if(image_type=="object.load_reference_image"):
-        bpy.ops.object.load_reference_image(filepath=str(filename_path))
+    string_input = ''
+    urls = []
+    if(image_type == "object.load_reference_image"):
+        string_input = bpy.context.scene.string_prop_for_referrence.strip()
     else:
-        bpy.ops.import_image.to_plane(files=[{"name":str(filename_path)}], directory=str(parentFolder))
+        string_input = bpy.context.scene.string_prop_for_plane.strip() 
+    string_inputs = string_input.split('https://')
+    for s in string_inputs:
+        if(s!=''):
+            urls.append('https://'+s.strip())
+    for url in urls:        
+        filename = url.split('/')[-1]
+        shortenedName = filename[:5]
+        isImageinFormat = True
+
+        if not (
+            filename.endswith('.jpg')
+            or filename.endswith('.jpeg')
+            or filename.endswith('.png')
+            or filename.endswith('.webp')
+            or filename.endswith('.cms')
+            or filename.endswith('.tiff')
+            or filename.endswith('.bmp')
+            or filename.endswith('.svg')
+
+        ):
+            isImageinFormat = False
+
+        if not isImageinFormat:
+            if 'jpg' in filename:
+                filename = shortenedName + '.jpg'
+            elif 'png' in filename:
+                filename = shortenedName + '.png'
+            elif 'jpeg' in filename:
+                filename = shortenedName + '.jpg'
+            elif 'webp' in filename:
+                filename = shortenedName + '.webp'
+            elif 'cms' in filename:
+                filename = shortenedName + '.cms'
+            elif 'tiff' in filename:
+                filename = shortenedName + '.tiff'
+            elif 'bmp' in filename:
+                filename = shortenedName + '.bmp'
+            elif 'svg' in filename:
+                filename = shortenedName + '.svg' 
+        sub_name = 'images'
+        subfolder = tempDir / sub_name
+        subfolder.mkdir(exist_ok=True)
+
+        filename_path = subfolder / filename
+        urllib.request.urlretrieve(url, filename_path)
+        if(image_type=="object.load_reference_image"):
+            bpy.ops.object.load_reference_image(filepath=str(filename_path))
+        else:
+            bpy.ops.import_image.to_plane(files=[{"name":str(filename_path)}], directory=str(parentFolder))
 def register():
     bpy.types.Scene.string_prop_for_referrence = bpy.props.StringProperty(name="URL")
     bpy.types.Scene.string_prop_for_plane = bpy.props.StringProperty(name="URL")
