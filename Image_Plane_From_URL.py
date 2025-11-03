@@ -25,11 +25,11 @@ addon_utils.enable("io_import_images_as_planes", default_set=True, persistent=Tr
 
 class LayoutDemoPanel(bpy.types.Panel):
     """Creates a Panel in the scene context of the properties editor"""
-    bl_label = "Import Images From URL"
+    bl_label = "Import Image From URL"
     bl_idname = "SCENE_PT_layout"
     bl_space_type = 'VIEW_3D'
     bl_region_type = 'UI'
-    bl_category = 'Import Images From URL'
+    bl_category = 'Import Image From URL'
 
     def draw(self, context):
         layout = self.layout
