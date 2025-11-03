@@ -1,5 +1,5 @@
 # Description
-Lets you import Image Plane and Ref Images from external Image URL. I made this addon because whenever I wanted to imported an image  reference  , I had to download the image and then select the file . So I wanted to get rid of that .
+Lets you import Image Plane and Ref Images from external Image URLS. I made this addon because whenever I wanted to imported an image  reference  , I had to download the image and then select the file . So I wanted to get rid of that .I added a new feature where you can import multiple images from multiple links together in the prompt or textfield.Enjoy!
 
 ## Installation
 1. [Go to this github file and download the file](https://github.com/sougataghar477/Import-Image-Plane-From-URL/blob/main/Image_Plane_From_URL.py)
